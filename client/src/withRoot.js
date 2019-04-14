@@ -1,11 +1,12 @@
 import React from "react";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import purple from "@material-ui/core/colors/purple";
+import purple from "@material-ui/core/colors/deepPurple";
 import green from "@material-ui/core/colors/green";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
 // A theme with custom primary and secondary color.
 // It's optional.
+//ここでは色の設定を行う
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -19,6 +20,7 @@ const theme = createMuiTheme({
       dark: green[700]
     }
   },
+  //きれいなフォントに見せるための物
   typography: {
     useNextVariants: true
   }

@@ -1,44 +1,30 @@
-import React from "react";
-import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import purple from "@material-ui/core/colors/purple";
-import green from "@material-ui/core/colors/green";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import React,{ useContext,useReducer } from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-// A theme with custom primary and secondary color.
-// It's optional.
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: purple[300],
-      main: purple[500],
-      dark: purple[700]
-    },
-    secondary: {
-      light: green[300],
-      main: green[500],
-      dark: green[700]
-    }
-  },
-  typography: {
-    useNextVariants: true
-  }
-});
+import App from "./pages/App";
+import Splash from "./pages/Splash";
+import Context from "./context"
 
-function withRoot(Component) {
-  function WithRoot(props) {
-    // MuiThemeProvider makes the theme available down the React tree
-    // thanks to React context.
-    return (
-      <MuiThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        {/* https://material-ui.com/getting-started/usage/#cssbaseline */}
-        <CssBaseline />
-        <Component {...props} />
-      </MuiThemeProvider>
-    );
-  }
+import "mapbox-gl/dist/mapbox-gl.css";
+import * as serviceWorker from "./serviceWorker";
 
-  return WithRoot;
-}
+const Root = () => {
+  const initialState=useContext(Context)
 
-export default withRoot;
+  return (
+    <Router>
+      <Switch>
+        <Route exact path="/" component={App} />
+        <Route path="/login" component={Splash} />
+      </Switch>
+    </Router>
+  );
+};
+
+ReactDOM.render(<Root />, document.getElementById("root"));
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: http://bit.ly/CRA-PWA
+serviceWorker.unregister();

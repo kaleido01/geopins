@@ -1,4 +1,4 @@
-const mongoose=require("monngoose")
+const mongoose=require("mongoose")
 
 const UserSchema=new mongoose.Schema({
   name:String,
