@@ -11,7 +11,6 @@ import Context from "./context"
 import reducer from './reducer';
 import ProtectedRoute from "./ProtectedRoute"
 
-
 const Root = () => {
   const initialState=useContext(Context)
 
