@@ -24,7 +24,7 @@ const Header = ({ classes }) => {
           component="h1"
           variant="h4"
           color="inherit"
-          nowrap
+          noWrap
         >
           Geopins
         </Typography>
@@ -39,7 +39,7 @@ const Header = ({ classes }) => {
           <Typography
             variant="h5"
             color="inherit"
-            nowrap
+            noWrap
           >
             {currentUser.name}
           </Typography>
