@@ -5,7 +5,8 @@ import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 
 import Context from "../../context";
-import { ME_QUERY } from './../../graphql/queries';
+import { ME_QUERY } from "./../../graphql/queries";
+import { BASE_URL } from "../../client";
 
 const Login = ({ classes }) => {
 	const { dispatch } = useContext(Context);
@@ -14,13 +15,13 @@ const Login = ({ classes }) => {
 		// console.log(googleUser.Zi.id_token)
 		try {
 			const idToken = googleUser.getAuthResponse().id_token;
-			const client = new GraphQLClient("http://localhost:4000/graphql", {
+			const client = new GraphQLClient(BASE_URL, {
 				headers: { authorization: idToken }
 			});
 			const { me } = await client.request(ME_QUERY);
 
-      dispatch({ type: "LOGIN_USER", payload: me });
-      dispatch({ type:"IS_LOGGED_IN", payload:googleUser.isSignedIn()})
+			dispatch({ type: "LOGIN_USER", payload: me });
+			dispatch({ type: "IS_LOGGED_IN", payload: googleUser.isSignedIn() });
 		} catch (err) {
 			onFailure(err);
 		}
@@ -43,8 +44,8 @@ const Login = ({ classes }) => {
 				clientId="700145195160-ogqlq0ju38v3duusrqca8tl6cakqm1pg.apps.googleusercontent.com"
 				onSuccess={onSuccess}
 				onFailure={onFailure}
-        isSignedIn={true}
-        buttonText="Login with Google"
+				isSignedIn={true}
+				buttonText="Login with Google"
 				theme="dark"
 			/>
 		</div>
