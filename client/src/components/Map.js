@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React,{useState,useEffect,useContext} from "react";
 import ReactMapGL,{ NavigationControl, Marker } from "react-map-gl"
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -6,6 +6,8 @@ import Typography from "@material-ui/core/Typography";
 import DeleteIcon from "@material-ui/icons/DeleteTwoTone";
 
 import PinIcon from "./PinIcon"
+import Context from '../context';
+import Blog from "./Blog"
 
 const INITIAL_VIEWPORT={
   latitude:37.7577,
@@ -14,8 +16,11 @@ const INITIAL_VIEWPORT={
 }
 
 const Map = ({ classes }) => {
+
   const [viewport,setViewport] =useState(INITIAL_VIEWPORT)
   const [userPosition,setUserPosition] =useState(null)
+  const {state,dispatch} = useContext(Context)
+
   useEffect(()=>{
     getUserPostion()
   },[])
@@ -30,6 +35,19 @@ const getUserPostion=()=>{
   }
 }
 
+const handleMapclick=({lngLat,leftButton})=>{
+  if(!leftButton) return 
+  if(!state.draft) {
+    dispatch({type:"CREATE_DRAFT"})
+  }
+  const [longitude,latitude]=lngLat
+  dispatch({
+    type:"UPDATE_DRAFT_LOCATION",
+    payload:{longitude,latitude}
+  })
+
+}
+
   return (
   <div className={classes.root}>
     <ReactMapGL
@@ -38,6 +56,7 @@ const getUserPostion=()=>{
       mapStyle="mapbox://styles/mapbox/streets-v11"
       mapboxApiAccessToken="pk.eyJ1Ijoia2FsZWlkbzAxIiwiYSI6ImNqdWd6aGU3djAxNmQ0NG1vcHNhNWZkN2MifQ.YQa45ORFNftekqv4MeDICQ"
       onViewportChange={newViewport=>setViewport(newViewport)}
+      onClick={handleMapclick}
       {...viewport}
     >
       {/* NavigationControl */}
@@ -56,9 +75,22 @@ const getUserPostion=()=>{
         >
         <PinIcon size={40} color="red" />
         </Marker>
+        )}
+        {/* Draftpin */}
+      {state.draft && (
+        <Marker
+        latitude={state.draft.latitude}
+        longitude={state.draft.longitude}
+        offsetLeft={-19}
+        offsetTop={-37}
+      >
+      <PinIcon size={40} color="hotpink" />
+      </Marker>
       )}
-    </ReactMapGL>
 
+    </ReactMapGL>
+    {/* Blog area to add pin content */}
+    <Blog />
   </div>
   );
 };
