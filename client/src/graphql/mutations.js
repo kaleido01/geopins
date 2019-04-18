@@ -23,4 +23,14 @@ mutation($title:String!,$image:String!,$content:String!,$latitude:Float!,$longit
     }
   }
 }
+
+`;
+
+export const DELETE_PIN_MUTATION = `
+  mutation($pinId:ID!){
+    deletePin(pinId:$pinId){
+      _id
+    }
+  }
+
 `;
